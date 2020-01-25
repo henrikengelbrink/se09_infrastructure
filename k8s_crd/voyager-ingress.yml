@@ -1,0 +1,38 @@
+apiVersion: voyager.appscode.com/v1beta1
+kind: Ingress
+metadata:
+  name: main-ingress
+  namespace: voyager
+  annotations:
+    ingress.appscode.com/type: LoadBalancer
+    kubernetes.io/ingress.class: voyager-ingress
+spec:
+  backend:
+    serviceName: terraform-example-app
+    servicePort: 80
+  tls:
+    - secretName: cert-main-domain
+      hosts:
+      - example.e28.dev
+      - mqtt.e28.dev
+      - kiali.e28.dev
+  rules:
+  - host: example.e28.dev
+    http:
+      paths:
+      - backend:
+          serviceName: terraform-example-app.http
+          servicePort: 80
+  - host: mqtt.e28.dev
+    tcp:
+      port: 8883
+      backend:
+        serviceName: vernemq-cluster.mqtt
+        servicePort: 1883
+  - host: kiali.e28.dev
+    http:
+      paths:
+      - backend:
+          serviceName: kiali.istio-system
+          servicePort: 20001
+
