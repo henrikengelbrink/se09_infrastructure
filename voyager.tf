@@ -51,9 +51,18 @@ resource "null_resource" "ingress" {
   ]
 }
 
+# resource "null_resource" "load_balancer_delay" {
+#   provisioner "local-exec" {
+#     command = "sleep 300"
+#   }
+#   triggers = {
+#     "before" = "${null_resource.ingress.id}"
+#   }
+# }
+
 resource "null_resource" "load_balancer_delay" {
   provisioner "local-exec" {
-    command = "sleep 300"
+    command = "./scripts/load-balancer.sh"
   }
   triggers = {
     "before" = "${null_resource.ingress.id}"
@@ -65,6 +74,7 @@ resource "null_resource" "voyager_cert" {
     command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager apply -f ./k8s_crd/voyager-cert.yml"
   }
   depends_on = [
-    "digitalocean_domain.dns_cluster_domain"
+    "data.digitalocean_domain.dns_cluster_domain"
   ]
 }
+
