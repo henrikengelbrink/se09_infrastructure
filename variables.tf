@@ -5,9 +5,9 @@ variable "region" {
 variable "do_token" {}
 
 variable "cluster_domain" {
-  default = "e28.dev"
+  default = "engelbrink.dev"
 }
 
 variable "cluster_name" {
-  default = "iot-cluster"
+  default = "se09-cluster"
 }

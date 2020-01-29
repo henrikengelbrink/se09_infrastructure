@@ -13,23 +13,23 @@ spec:
   tls:
     - secretName: cert-main-domain
       hosts:
-      - example.e28.dev
-      - mqtt.e28.dev
-      - kiali.e28.dev
+      - example.engelbrink.dev
+      - mqtt.engelbrink.dev
+      - kiali.engelbrink.dev
   rules:
-  - host: example.e28.dev
+  - host: example.engelbrink.dev
     http:
       paths:
       - backend:
           serviceName: terraform-example-app.http
           servicePort: 80
-  - host: mqtt.e28.dev
+  - host: mqtt.engelbrink.dev
     tcp:
       port: 8883
       backend:
         serviceName: vernemq-cluster.mqtt
         servicePort: 1883
-  - host: kiali.e28.dev
+  - host: kiali.engelbrink.dev
     http:
       paths:
       - backend:

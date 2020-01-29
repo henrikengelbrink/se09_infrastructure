@@ -1,4 +1,4 @@
-resource "digitalocean_kubernetes_cluster" "iot_cluster" {
+resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
   name = "${var.cluster_name}"
   region = "${var.region}"
   version = "1.15.5-do.3"
@@ -11,19 +11,19 @@ resource "digitalocean_kubernetes_cluster" "iot_cluster" {
 }
 
 resource "local_file" "kubeconfig" {
-    content = "${digitalocean_kubernetes_cluster.iot_cluster.kube_config.0.raw_config}"
+    content = "${digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.raw_config}"
     filename = "kubeconfig.yaml"
 }
 
 provider "kubernetes" {
-    host  = "${digitalocean_kubernetes_cluster.iot_cluster.endpoint}"
-    token = "${digitalocean_kubernetes_cluster.iot_cluster.kube_config.0.token}"
-    cluster_ca_certificate = "${base64decode(digitalocean_kubernetes_cluster.iot_cluster.kube_config.0.cluster_ca_certificate)}"
+    host  = "${digitalocean_kubernetes_cluster.k8s_cluster.endpoint}"
+    token = "${digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.token}"
+    cluster_ca_certificate = "${base64decode(digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.cluster_ca_certificate)}"
 }
 
-resource "kubernetes_namespace" "k8s_namespace_voyager" {
+resource "kubernetes_namespace" "k8s_namespace_ambassador" {
   metadata {
-    name = "voyager"
+    name = "ambassador"
     labels = {
       istio-injection = "enabled"
     }
@@ -56,3 +56,13 @@ resource "kubernetes_namespace" "k8s_namespace_elastic" {
     }
   }
 }
+
+resource "kubernetes_namespace" "k8s_namespace_cert_manager" {
+  metadata {
+    name = "cert-manager"
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+}
+

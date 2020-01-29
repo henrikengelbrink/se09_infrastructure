@@ -5,8 +5,8 @@ metadata:
   namespace: voyager
 spec:
   domains:
-  - 'e28.dev'
-  - '*.e28.dev'
+  - 'engelbrink.dev'
+  - '*.engelbrink.dev'
   acmeUserSecretName: acme-account
   challengeProvider:
     dns:
