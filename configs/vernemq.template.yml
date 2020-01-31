@@ -1,0 +1,27 @@
+additionalEnv:
+    - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
+      value: "off"
+    - name: DOCKER_VERNEMQ_ACCEPT_EULA
+      value: "yes"
+    - name: DOCKER_VERNEMQ_PLUGINS__VMQ_ACL
+      value: "off"
+    - name: DOCKER_VERNEMQ_PLUGINS__VMQ_DIVERSITY
+      value: "on"
+    - name: DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD
+      value: "off"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__AUTH_POSTGRES__ENABLED
+      value: "on"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__SSL
+      value: "on"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PASSWORD_HASH_METHOD
+      value: "crypt"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__HOST
+      value: "postgres_host"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PORT
+      value: "postgres_port"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__USER
+      value: "postgres_user"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PASSWORD
+      value: "postgres_password"
+    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__DATABASE
+      value: "vernemq-pool"

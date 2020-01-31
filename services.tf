@@ -12,6 +12,9 @@ resource "kubernetes_service" "terraform-example-app-service" {
       target_port = 80
     }
   }
+  depends_on = [
+    "kubernetes_namespace.k8s_namespace_http"
+  ]
 }
 
 resource "kubernetes_deployment" "terraform-example-app-deployment" {
@@ -51,4 +54,7 @@ resource "kubernetes_deployment" "terraform-example-app-deployment" {
       }
     }
   }
+  depends_on = [
+    "kubernetes_namespace.k8s_namespace_http"
+  ]
 }

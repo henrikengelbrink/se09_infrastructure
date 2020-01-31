@@ -2,3 +2,4 @@
 kubeconfig.yaml
 terraform.tfvars
 /.terraform
+vernemq.yml
