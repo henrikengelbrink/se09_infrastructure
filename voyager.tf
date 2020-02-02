@@ -23,9 +23,14 @@ resource "helm_release" "voyager_ingress_controller" {
   ]
 }
 
-resource "null_resource" "acme_secret" {
-  provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager create secret generic acme-account --from-literal=ACME_EMAIL=hengel2810@gmail.com"
+resource "kubernetes_secret" "acme_secret_k8s" {
+  metadata {
+    name = "acme-account"
+    namespace = "voyager"
+  }
+  data = {
+    ACME_EMAIL = "hengel2810@gmail.com"
+    ACME_SERVER_URL = "https://acme-staging-v02.api.letsencrypt.org/directory"
   }
   depends_on = [
     "local_file.kubeconfig",
@@ -33,12 +38,16 @@ resource "null_resource" "acme_secret" {
   ]
 }
 
-resource "null_resource" "dns_digital_ocean_secret" {
-  provisioner "local-exec" {
-    command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager create secret generic do-dns-secret --from-literal=DO_AUTH_TOKEN=${var.do_token}"
+resource "kubernetes_secret" "dns_digital_ocean_secret_k8s" {
+  metadata {
+    name = "do-dns-secret"
+    namespace = "voyager"
+  }
+  data = {
+    DO_AUTH_TOKEN = "${var.do_token}"
   }
   depends_on = [
-    "null_resource.acme_secret"
+    "kubernetes_secret.acme_secret_k8s"
   ]
 }
 
@@ -47,9 +56,49 @@ resource "null_resource" "ingress" {
     command = "kubectl --kubeconfig ./kubeconfig.yaml --namespace=voyager apply -f ./k8s_crd/voyager-ingress.yml"
   }
   depends_on = [
-    "null_resource.acme_secret"
+    "kubernetes_secret.acme_secret_k8s"
   ]
 }
+
+# resource "kubernetes_ingress" "ingress" {
+#   metadata {
+#     name = "main-ingress"
+#     namespace = "voyager"
+#     annotations = {
+#       "ingress.appscode.com/type" = "LoadBalancer"
+#       "kubernetes.io/ingress.class" = "voyager-ingress"
+#     }
+#   }
+#   spec {
+#     backend {
+#       service_name = "terraform-example-app"
+#       service_port = 80
+#     }
+#     tls {
+#       secret_name = "cert-main-domain"
+#       hosts = [
+#         "example.engelbrink.dev",
+#         "mqtt.engelbrink.dev",
+#         "kiali.engelbrink.dev"
+#       ]
+#     }
+#     rule {
+#       host = "example.engelbrink.dev"
+#       http {
+#         path {
+#           path = "/"
+#           backend {
+#             service_name = "terraform-example-app.http"
+#             service_port = 80
+#           }
+#         }
+#       }
+#     }
+#   }
+#   depends_on = [
+#     "kubernetes_secret.acme_secret_k8s"
+#   ]
+# }
 
 resource "null_resource" "load_balancer_delay" {
   provisioner "local-exec" {
