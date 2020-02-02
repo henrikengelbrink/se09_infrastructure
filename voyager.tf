@@ -4,23 +4,23 @@ data "helm_repository" "appscode_helm_repo" {
 }
 
 resource "helm_release" "voyager_ingress_controller" {
-    repository = "${data.helm_repository.appscode_helm_repo.metadata.0.name}"
-    name = "ingress-controller"
-    chart = "appscode/voyager"
-    version = "v12.0.0-rc.1"
-    namespace = "voyager"
-    set {
-      name  = "ingressClass"
-      value = "voyager-ingress"
-    }
-    set {
-      name  = "cloudProvider"
-      value = "digitalocean"
-    }
-    depends_on = [
-      "kubernetes_cluster_role_binding.tiller",
-      "kubernetes_service_account.tiller",
-    ]
+  repository = "${data.helm_repository.appscode_helm_repo.metadata.0.name}"
+  name       = "ingress-controller"
+  chart      = "appscode/voyager"
+  version    = "v12.0.0-rc.1"
+  namespace  = "voyager"
+  set {
+    name  = "ingressClass"
+    value = "voyager-ingress"
+  }
+  set {
+    name  = "cloudProvider"
+    value = "digitalocean"
+  }
+  depends_on = [
+    "kubernetes_cluster_role_binding.tiller",
+    "kubernetes_service_account.tiller",
+  ]
 }
 
 resource "null_resource" "acme_secret" {
@@ -70,4 +70,3 @@ resource "null_resource" "voyager_cert" {
     "helm_release.voyager_ingress_controller"
   ]
 }
-
