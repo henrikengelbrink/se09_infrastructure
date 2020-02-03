@@ -88,7 +88,19 @@ resource "null_resource" "ingress" {
 #         path {
 #           path = "/"
 #           backend {
-#             service_name = "terraform-example-app.http"
+#             service_name = "terraform-example-app"
+#             service_port = 80
+#           }
+#         }
+#       }
+#     }
+#     rule {
+#       host = "mqtt.engelbrink.dev"
+#       tcp {
+#         path {
+#           path = "/"
+#           backend {
+#             service_name = "vernemq-cluster"
 #             service_port = 80
 #           }
 #         }
@@ -98,6 +110,12 @@ resource "null_resource" "ingress" {
 #   depends_on = [
 #     "kubernetes_secret.acme_secret_k8s"
 #   ]
+#     # - host: mqtt.engelbrink.dev
+#     # tcp:
+#     #   port: 8883
+#     #   backend:
+#     #     serviceName: vernemq-cluster.mqtt
+#     #     servicePort: 1883
 # }
 
 resource "null_resource" "load_balancer_delay" {

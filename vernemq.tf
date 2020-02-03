@@ -48,9 +48,9 @@ resource "helm_release" "vernemq_cluster" {
 #   provisioner "local-exec" {
 #     command = "rm configs/vernemq.yml && touch configs/vernemq.yml"
 #   }
-#   depends_on = [
-#     "helm_release.vernemq_cluster"
-#   ]
+  # depends_on = [
+  #   "helm_release.vernemq_cluster"
+  # ]
 # }
 
 resource "kubernetes_service" "mqtt_broker_service_http_debug" {
@@ -68,4 +68,7 @@ resource "kubernetes_service" "mqtt_broker_service_http_debug" {
       target_port = 8888
     }
   }
+  depends_on = [
+    "helm_release.vernemq_cluster"
+  ]
 }
