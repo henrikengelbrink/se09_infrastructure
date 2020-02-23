@@ -1,12 +1,12 @@
 data "kubernetes_service" "k8s_ingress" {
   metadata {
-    name      = "voyager-main-ingress"
-    namespace = "voyager"
+    name      = "ambassador"
+    namespace = "ambassador"
   }
   depends_on = [
-    "null_resource.load_balancer_delay",
-    "helm_release.voyager_ingress_controller",
-    "null_resource.ingress"
+    # "null_resource.load_balancer_delay",
+    "helm_release.ambassador_ingress_controller",
+    # "null_resource.ingress"
   ]
 }
 

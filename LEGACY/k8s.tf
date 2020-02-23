@@ -71,15 +71,3 @@ resource "kubernetes_namespace" "k8s_namespace_elastic" {
     "local_file.kubeconfig"
   ]
 }
-
-resource "kubernetes_namespace" "k8s_namespace_cert_manager" {
-  metadata {
-    name = "cert-manager"
-    labels = {
-      istio-injection = "enabled"
-    }
-  }
-  depends_on = [
-    "local_file.kubeconfig"
-  ]
-}

@@ -1,0 +1,32 @@
+apiVersion: voyager.appscode.com/v1beta1
+kind: Ingress
+metadata:
+  name: main-ingress
+  namespace: voyager
+  annotations:
+    ingress.appscode.com/type: LoadBalancer
+    kubernetes.io/ingress.class: voyager-ingress
+spec:
+  backend:
+    serviceName: example-app
+    servicePort: 80
+  tls:
+    - secretName: cert-main-domain
+      hosts:
+      - example.engelbrink.dev
+#      - mqtt.engelbrink.dev
+  rules:
+  - host: example.engelbrink.dev
+    http:
+      paths:
+      - backend:
+          serviceName: example-app.services
+          servicePort: 80
+#  - host: mqtt.engelbrink.dev
+#    tcp:
+#      port: 8883
+#      noTLS: true
+#      backend:
+#        serviceName: vernemq-cluster.mqtt
+#        servicePort: 1883
+

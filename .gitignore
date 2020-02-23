@@ -3,3 +3,6 @@ kubeconfig.yaml
 terraform.tfvars
 /.terraform
 vernemq.yml
+vault.txt
+.terraform
+.idea
