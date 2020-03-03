@@ -11,3 +11,7 @@ variable "postgres_cluster_name" {
 variable "cluster_domain" {
   default = "engelbrink.dev"
 }
+
+variable "gcp_account_file_path" {}
+variable "gcloud_project" {}
+variable "gcloud_region" {}

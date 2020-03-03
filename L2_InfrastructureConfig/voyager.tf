@@ -49,7 +49,8 @@ resource "null_resource" "ingress" {
     command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=voyager apply -f ./crds/voyager-ingress.yml"
   }
   depends_on = [
-    kubernetes_secret.acme_secret_k8s
+    kubernetes_secret.acme_secret_k8s,
+    helm_release.voyager
   ]
 }
 
@@ -60,6 +61,10 @@ resource "null_resource" "load_balancer_delay" {
   triggers = {
     "before" = null_resource.ingress.id
   }
+  depends_on = [
+    null_resource.ingress,
+    helm_release.voyager
+  ]
 }
 
 resource "null_resource" "voyager_cert" {

@@ -6,3 +6,6 @@ vernemq.yml
 vault.txt
 .terraform
 .idea
+.aws
+private.key
+k8s-based-io*.json
