@@ -81,6 +81,8 @@ resource "helm_release" "vault" {
     kubernetes_job.vault_db_init
   ]
   values = [<<EOF
+injector:
+  enabled: true
 server:
   extraVolumes:
     - type: secret
@@ -110,36 +112,68 @@ EOF
   ]
 }
 
-resource "kubernetes_job" "vault_init" {
+resource "kubernetes_service_account" "vault_injector_account" {
+  metadata {
+    name = "vault-auth"
+    namespace = "vault"
+    labels = {
+      app = "vault-app"
+    }
+  }
+  depends_on = [
+    helm_release.vault
+  ]
+}
+
+data "external" "vault_token_name"{
+  program = ["bash", "${path.module}/scripts/vault.sh"]
+  depends_on = [
+    helm_release.vault
+  ]
+}
+
+resource "kubernetes_pod" "vault_init" {
   metadata {
     name = "vault-init"
     namespace = "vault"
   }
   spec {
-    template {
-      metadata {}
-      spec {
-        container {
-          name    = "vault-init"
-          image   = "hengel2810/se09-vault-init:0.27"
-          command = ["python", "./main.py"]
-          env {
-            name  = "VAULT_HOST"
-            value = "vault"
-          }
-          env {
-            name  = "VAULT_PORT"
-            value = 8200
-          }
-          env {
-            name  = "CERT_ROOT_DOMAIN"
-            value = "engelbrink.dev"
-          }
-        }
-        restart_policy = "Never"
+    restart_policy = "Never"
+    automount_service_account_token = true
+    service_account_name = "vault"
+    container {
+      name    = "vault-init"
+      image   = "hengel2810/se09-vault-init:0.55"
+      command = ["python", "./main.py"]
+      env {
+        name  = "VAULT_HOST"
+        value = "vault"
+      }
+      env {
+        name  = "VAULT_PORT"
+        value = 8200
+      }
+      env {
+        name  = "CERT_ROOT_DOMAIN"
+        value = "engelbrink.dev"
+      }
+      env {
+        name  = "K8S_HOST"
+        value = data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.host
+      }
+      env {
+        name  = "K8S_CA_CERT"
+        value = data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.cluster_ca_certificate
+      }
+      env {
+        name  = "K8S_TOKEN"
+        value = data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.token
+      }
+      env {
+        name  = "CLUSTER_TOKEN"
+        value = data.external.vault_token_name.result.token
       }
     }
-    backoff_limit = 4
   }
   depends_on = [
     helm_release.vault
