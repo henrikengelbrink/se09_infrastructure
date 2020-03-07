@@ -17,6 +17,8 @@ function valid_ip()
     return $stat
 }
 
+sleep 20
+
 READY=0
 while [ "$READY" -eq 0 ]; do
     EXT_IP=`kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml get svc voyager-main-ingress -n voyager | awk 'FNR==2 { print $4 }'`
