@@ -22,11 +22,11 @@ spec:
       - backend:
           serviceName: example-app.services
           servicePort: 80
-#  - host: mqtt.engelbrink.dev
-#    tcp:
-#      port: 8883
-#      noTLS: true
-#      backend:
-#        serviceName: vernemq-cluster.mqtt
-#        servicePort: 1883
+  - host: mqtt.engelbrink.dev
+    tcp:
+      port: 8883
+      noTLS: true
+      backend:
+        serviceName: vernemq-cluster.mqtt
+        servicePort: 8883
 

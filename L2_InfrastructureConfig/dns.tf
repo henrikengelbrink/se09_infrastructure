@@ -25,3 +25,13 @@ resource "digitalocean_record" "cluster_domain_sub_example" {
     digitalocean_domain.dns_cluster_domain
   ]
 }
+
+resource "digitalocean_record" "cluster_domain_sub_mqtt" {
+  domain = digitalocean_domain.dns_cluster_domain.name
+  type   = "A"
+  name   = "mqtt"
+  value  = data.kubernetes_service.load_balancer.load_balancer_ingress.0.ip
+  depends_on = [
+    digitalocean_domain.dns_cluster_domain
+  ]
+}

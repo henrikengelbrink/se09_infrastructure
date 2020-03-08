@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "mqtt-auth-deployment" {
     }
   }
   spec {
-    replicas = 2
+    replicas = 1
     selector {
       match_labels = {
         app = "mqtt-auth-service"
@@ -37,15 +37,15 @@ resource "kubernetes_deployment" "mqtt-auth-deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-mqtt-auth-service:9a8e4d7568c7c235b14447ec54a3efa3bfe98b65"
+          image = "hengel2810/se09-mqtt-auth-service:f7ff437ffde58f31030d9903c0b332d984a6cd15"
           name  = "mqtt-auth-service"
           liveness_probe {
             http_get {
-              path = "/"
+              path = "/health"
               port = 9090
             }
-            initial_delay_seconds = 3
-            period_seconds        = 3
+            initial_delay_seconds = 10
+            period_seconds        = 10
           }
         }
       }

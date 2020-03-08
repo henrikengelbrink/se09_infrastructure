@@ -10,11 +10,15 @@ resource "helm_release" "vernemq_cluster" {
   namespace  = "mqtt"
   set {
     name  = "replicaCount"
-    value = 2
+    value = 1
   }
   set {
     name  = "image.tag"
     value = "1.10.1"
+  }
+  set {
+    name = "service.mqtts.enabled"
+    value = "true"
   }
   values = [<<EOF
 additionalEnv:
@@ -34,20 +38,18 @@ additionalEnv:
       value: "/vault/secrets/server.key"
     - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT
       value: "0.0.0.0:8883"
-    - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT__USE_IDENTITY_AS_USERNAME
-      value: "on"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__hook
       value: "auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__endpoint
-      value: "http://mqtt-auth-service:9090/vernemq/auth_on_register"
+      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__hook
       value: "auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__endpoint
-      value: "http://mqtt-auth-service:9090/vernemq/auth_on_subscribe"
+      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__hook
       value: "auth_on_publish"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__endpoint
-      value: "http://mqtt-auth-service:9090/vernemq/auth_on_publish"
+      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_publish"
 statefulset:
   podAnnotations:
     vault.hashicorp.com/agent-inject: "true"
@@ -70,23 +72,6 @@ statefulset:
 EOF
   ]
 }
-
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__AUTH_POSTGRES__ENABLED
-//      value: "on"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__SSL
-//      value: "on"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PASSWORD_HASH_METHOD
-//      value: "crypt"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__HOST
-//      value: "${digitalocean_database_connection_pool.vernemq.host}"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PORT
-//      value: "${digitalocean_database_connection_pool.vernemq.port}"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__USER
-//      value: "${digitalocean_database_user.vernemq.name}"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__PASSWORD
-//      value: "${digitalocean_database_user.vernemq.password}"
-//    - name: DOCKER_VERNEMQ_VMQ_DIVERSITY__POSTGRES__DATABASE
-//      value: "vernemq-pool"
 
 resource "kubernetes_service" "mqtt_broker_service_http_debug" {
   metadata {
