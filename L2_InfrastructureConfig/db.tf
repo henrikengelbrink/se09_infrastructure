@@ -8,13 +8,13 @@ resource "digitalocean_database_user" "vault" {
 }
 
 provider "postgresql" {
-  host            = data.digitalocean_database_cluster.postgres.host
-  port            = data.digitalocean_database_cluster.postgres.port
-  database        = data.digitalocean_database_cluster.postgres.database
-  username        = data.digitalocean_database_cluster.postgres.user
-  password        = data.digitalocean_database_cluster.postgres.password
+  host             = data.digitalocean_database_cluster.postgres.host
+  port             = data.digitalocean_database_cluster.postgres.port
+  database         = data.digitalocean_database_cluster.postgres.database
+  username         = data.digitalocean_database_cluster.postgres.user
+  password         = data.digitalocean_database_cluster.postgres.password
   expected_version = data.digitalocean_database_cluster.postgres.version
-  superuser = false
+  superuser        = false
 }
 
 resource "postgresql_database" "vault" {

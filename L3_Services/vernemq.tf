@@ -17,7 +17,7 @@ resource "helm_release" "vernemq_cluster" {
     value = "1.10.1"
   }
   set {
-    name = "service.mqtts.enabled"
+    name  = "service.mqtts.enabled"
     value = "true"
   }
   values = [<<EOF

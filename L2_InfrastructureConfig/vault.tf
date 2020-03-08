@@ -12,7 +12,7 @@ resource "google_kms_crypto_key" "crypto_key" {
 
 resource "google_kms_key_ring_iam_binding" "vault_iam_kms_binding" {
   key_ring_id = google_kms_key_ring.key_ring.id
-  role = "roles/owner"
+  role        = "roles/owner"
   members = [
     "serviceAccount:vault-911@k8s-based-iot.iam.gserviceaccount.com"
   ]
@@ -30,7 +30,7 @@ resource "kubernetes_secret" "gcp_credentials" {
 
 resource "kubernetes_job" "vault_db_init" {
   metadata {
-    name = "vault-db-init"
+    name      = "vault-db-init"
     namespace = "vault"
   }
   spec {
@@ -114,7 +114,7 @@ EOF
 
 resource "kubernetes_service_account" "vault_injector_account" {
   metadata {
-    name = "vault-auth"
+    name      = "vault-auth"
     namespace = "vault"
     labels = {
       app = "vault-app"
@@ -125,7 +125,7 @@ resource "kubernetes_service_account" "vault_injector_account" {
   ]
 }
 
-data "external" "vault_token_name"{
+data "external" "vault_token_name" {
   program = ["bash", "${path.module}/scripts/vault.sh"]
   depends_on = [
     helm_release.vault
@@ -134,13 +134,13 @@ data "external" "vault_token_name"{
 
 resource "kubernetes_pod" "vault_init" {
   metadata {
-    name = "vault-init"
+    name      = "vault-init"
     namespace = "vault"
   }
   spec {
-    restart_policy = "Never"
+    restart_policy                  = "Never"
     automount_service_account_token = true
-    service_account_name = "vault"
+    service_account_name            = "vault"
     container {
       name    = "vault-init"
       image   = "hengel2810/se09-vault-init:0.59"
