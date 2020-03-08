@@ -44,6 +44,16 @@ resource "kubernetes_deployment" "device_deployment" {
         labels = {
           app = "device-service"
         }
+        annotations = {
+          "vault.hashicorp.com/agent-inject" = "true"
+          "vault.hashicorp.com/role" = "device-service-role"
+          "vault.hashicorp.com/agent-inject-secret-chain.crt" = "secret/mqtt-server-chain"
+          "vault.hashicorp.com/agent-inject-template-chain.crt" = <<EOF
+        {{- with secret "secret/mqtt-server-chain" -}}
+        {{ .Data.data.chain_crt }}
+        {{- end }}
+EOF
+        }
       }
       spec {
         service_account_name            = "device-service"
