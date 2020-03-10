@@ -38,6 +38,8 @@ additionalEnv:
       value: "/vault/secrets/server.key"
     - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT
       value: "0.0.0.0:8883"
+    - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT__USE_IDENTITY_AS_USERNAME
+      value: "on"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__hook
       value: "auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__endpoint
