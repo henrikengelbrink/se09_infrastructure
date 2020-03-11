@@ -35,3 +35,23 @@ resource "digitalocean_record" "cluster_domain_sub_mqtt" {
     digitalocean_domain.dns_cluster_domain
   ]
 }
+
+resource "digitalocean_record" "cluster_domain_sub_hydra" {
+  domain = digitalocean_domain.dns_cluster_domain.name
+  type   = "A"
+  name   = "hydra"
+  value  = data.kubernetes_service.load_balancer.load_balancer_ingress.0.ip
+  depends_on = [
+    digitalocean_domain.dns_cluster_domain
+  ]
+}
+
+resource "digitalocean_record" "cluster_domain_sub_user" {
+  domain = digitalocean_domain.dns_cluster_domain.name
+  type   = "A"
+  name   = "user"
+  value  = data.kubernetes_service.load_balancer.load_balancer_ingress.0.ip
+  depends_on = [
+    digitalocean_domain.dns_cluster_domain
+  ]
+}

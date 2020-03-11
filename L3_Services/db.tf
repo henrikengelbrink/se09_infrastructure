@@ -7,6 +7,11 @@ resource "digitalocean_database_user" "device_service" {
   name       = "device-service"
 }
 
+resource "digitalocean_database_user" "user_service" {
+  cluster_id = data.digitalocean_database_cluster.postgres.id
+  name       = "user-service"
+}
+
 provider "postgresql" {
   host             = data.digitalocean_database_cluster.postgres.host
   port             = data.digitalocean_database_cluster.postgres.port
@@ -20,5 +25,11 @@ provider "postgresql" {
 resource "postgresql_database" "device_service" {
   name              = "device-service"
   owner             = digitalocean_database_user.device_service.name
+  allow_connections = true
+}
+
+resource "postgresql_database" "user_service" {
+  name              = "user-service"
+  owner             = digitalocean_database_user.user_service.name
   allow_connections = true
 }

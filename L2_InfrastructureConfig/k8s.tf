@@ -31,3 +31,9 @@ resource "kubernetes_namespace" "k8s_namespace_vault" {
     name = "vault"
   }
 }
+
+resource "kubernetes_namespace" "k8s_namespace_auth" {
+  metadata {
+    name = "auth"
+  }
+}

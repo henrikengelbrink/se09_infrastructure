@@ -15,6 +15,8 @@ spec:
       hosts:
       - example.engelbrink.dev
 #      - mqtt.engelbrink.dev
+      - user.engelbrink.dev
+      - hydra.engelbrink.dev
   rules:
   - host: example.engelbrink.dev
     http:
@@ -22,6 +24,18 @@ spec:
       - backend:
           serviceName: example-app.services
           servicePort: 80
+  - host: user.engelbrink.dev
+    http:
+      paths:
+      - backend:
+          serviceName: user-service.auth
+          servicePort: 8585
+  - host: hydra.engelbrink.dev
+    http:
+      paths:
+      - backend:
+          serviceName: hydra.auth
+          servicePort: 4444
   - host: mqtt.engelbrink.dev
     tcp:
       port: 8883
