@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:8d8e7d7342d71f2fe90d25db315e726c3c70ce09"
+          image = "hengel2810/se09-user-service:a05410d338d8a90e39b359ac198b80cc86229f13"
           name  = "user-service"
           env {
             name  = "PORT"
@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "user_deployment" {
           }
           env {
             name  = "HYDRA_URL_PUBLIC"
-            value = "http://vault.vault.svc.cluster.local:8200"
+            value = "http://hydra-admin:4445"
           }
           env {
             name = "EXTERNAL_HOSTNAME"

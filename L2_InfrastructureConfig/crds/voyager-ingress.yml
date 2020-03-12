@@ -34,7 +34,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: hydra.auth
+          serviceName: hydra-public.auth
           servicePort: 4444
   - host: mqtt.engelbrink.dev
     tcp:
