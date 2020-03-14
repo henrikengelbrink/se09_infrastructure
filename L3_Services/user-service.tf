@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:a05410d338d8a90e39b359ac198b80cc86229f13"
+          image = "hengel2810/se09-user-service:dedd65a48f9cce811d7b3caafc73379d952a3558"
           name  = "user-service"
           env {
             name  = "PORT"
@@ -61,16 +61,8 @@ resource "kubernetes_deployment" "user_deployment" {
           }
           env {
             name = "EXTERNAL_HOSTNAME"
-            value = "https://user.engelbrink.dev"
+            value = "https://api.engelbrink.dev/user-service"
           }
-//          liveness_probe {
-//            http_get {
-//              path = "/health"
-//              port = 8585
-//            }
-//            initial_delay_seconds = 30
-//            period_seconds        = 10
-//          }
         }
       }
     }

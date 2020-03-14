@@ -18,15 +18,15 @@ resource "helm_release" "hydra" {
   }
   set {
     name = "hydra.config.urls.self.issuer"
-    value = "https://hydra.engelbrink.dev"
+    value = "https://api.engelbrink.dev/hydra"
   }
   set {
     name = "hydra.config.urls.login"
-    value = "https://user.engelbrink.dev/auth/login"
+    value = "https://api.engelbrink.dev/user-service/auth/login"
   }
   set {
     name = "hydra.config.urls.consent"
-    value = "https://user.engelbrink.dev/auth/consent"
+    value = "https://api.engelbrink.dev/user-service/auth/consent"
   }
   set {
     name = "hydra.dangerousForceHttp"

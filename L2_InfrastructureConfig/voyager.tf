@@ -72,7 +72,7 @@ resource "null_resource" "voyager_cert" {
     command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=voyager apply -f ./crds/voyager-cert.yml"
   }
   depends_on = [
-    digitalocean_domain.dns_cluster_domain,
+#    digitalocean_domain.dns_cluster_domain,
     helm_release.voyager
   ]
 }
