@@ -111,8 +111,8 @@
       "url": "http://device-service.services.svc.cluster.local:7979"
     },
     "match": {
-      "url": "http://api.engelbrink.dev/device-service/devices/<.*>",
-      "methods": ["POST"]
+      "url": "http://api.engelbrink.dev/device-service/devices",
+      "methods": ["PUT"]
     },
     "authenticators": [
       {
@@ -125,7 +125,20 @@
       }
     ],
     "authorizer": { "handler": "allow" },
-    "mutators": [{ "handler": "noop" }],
+    "mutators": [
+      {
+        "handler": "hydrator",
+        "config": {
+          "api": {
+            "url": "http://user-service:8585/auth/hydrator",
+            "retry": {
+              "give_up_after": "6s",
+              "max_delay": "2s"
+            }
+          }
+        }
+      }
+    ],
     "errors": [{ "handler": "json" }]
   },
   {

@@ -43,15 +43,15 @@ additionalEnv:
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__hook
       value: "auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__endpoint
-      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_register"
+      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__hook
       value: "auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__endpoint
-      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_subscribe"
+      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__hook
       value: "auth_on_publish"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__endpoint
-      value: "http://mqtt-auth-service.services.svc.cluster.local:9090/vernemq/auth_on_publish"
+      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_publish"
 statefulset:
   podAnnotations:
     vault.hashicorp.com/agent-inject: "true"

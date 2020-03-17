@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:dedd65a48f9cce811d7b3caafc73379d952a3558"
+          image = "hengel2810/se09-user-service:b680869a8e120b8067874f9023fca56234008660"
           name  = "user-service"
           env {
             name  = "PORT"
@@ -56,7 +56,7 @@ resource "kubernetes_deployment" "user_deployment" {
             value = digitalocean_database_user.user_service.password
           }
           env {
-            name  = "HYDRA_URL_PUBLIC"
+            name  = "HYDRA_URL_ADMIN"
             value = "http://hydra-admin:4445"
           }
           env {

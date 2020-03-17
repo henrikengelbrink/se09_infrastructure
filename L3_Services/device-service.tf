@@ -59,7 +59,7 @@ EOF
         service_account_name            = "device-service"
         automount_service_account_token = "true"
         container {
-          image = "hengel2810/se09-device-service:76dd184b3d691515c337cb05b278f184080f37cc"
+          image = "hengel2810/se09-device-service:cd8a904f0281f69512f0f7026f73fe9e29eb1f45"
           name  = "device-service"
           env {
             name  = "POSTGRES_HOST"
@@ -76,6 +76,10 @@ EOF
           env {
             name  = "VAULT_URL"
             value = "http://vault.vault.svc.cluster.local:8200"
+          }
+          env {
+            name  = "USER_SERVICE_URL"
+            value = "http://user-service.auth.svc.cluster.local:8585"
           }
         }
       }
