@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "k8s_cluster" {
   name    = var.k8s_cluster_name
   region  = var.region
-  version = "1.15.9-do.0"
+  version = "1.15.9-do.2"
 
   node_pool {
     name       = "worker-pool"

@@ -1,11 +1,11 @@
 resource "google_kms_key_ring" "key_ring" {
   project  = var.gcloud_project
-  name     = "kms-vault-key-10"
+  name     = "kms-vault-key-13"
   location = var.gcloud_region
 }
 
 resource "google_kms_crypto_key" "crypto_key" {
-  name            = "kms-vault-crypto-key-10"
+  name            = "kms-vault-crypto-key-13"
   key_ring        = google_kms_key_ring.key_ring.self_link
   rotation_period = "100000s"
 }
@@ -143,7 +143,7 @@ resource "kubernetes_pod" "vault_init" {
     service_account_name            = "vault"
     container {
       name    = "vault-init"
-      image   = "hengel2810/se09-vault-init:0.59"
+      image   = "hengel2810/se09-vault-init:0.63"
       command = ["python", "./main.py"]
       env {
         name  = "VAULT_HOST"
