@@ -12,6 +12,11 @@ resource "digitalocean_database_user" "user_service" {
   name       = "user-service"
 }
 
+resource "digitalocean_database_user" "hydra" {
+  cluster_id = data.digitalocean_database_cluster.postgres.id
+  name       = "hydra"
+}
+
 provider "postgresql" {
   host             = data.digitalocean_database_cluster.postgres.host
   port             = data.digitalocean_database_cluster.postgres.port
@@ -31,5 +36,11 @@ resource "postgresql_database" "device_service" {
 resource "postgresql_database" "user_service" {
   name              = "user-service"
   owner             = digitalocean_database_user.user_service.name
+  allow_connections = true
+}
+
+resource "postgresql_database" "hydra" {
+  name              = "hydra"
+  owner             = digitalocean_database_user.hydra.name
   allow_connections = true
 }

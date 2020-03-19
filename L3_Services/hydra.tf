@@ -14,7 +14,7 @@ resource "helm_release" "hydra" {
   }
   set {
     name = "hydra.config.dsn"
-    value = "memory"
+    value = "postgres://${digitalocean_database_user.hydra.name}:${digitalocean_database_user.hydra.password}@${data.digitalocean_database_cluster.postgres.host}:${data.digitalocean_database_cluster.postgres.port}/${postgresql_database.user_service.name}?sslmode=require"
   }
   set {
     name = "hydra.config.urls.self.issuer"
@@ -32,25 +32,44 @@ resource "helm_release" "hydra" {
     name = "hydra.dangerousForceHttp"
     value = "true"
   }
+  set {
+    name = "hydra.autoMigrate"
+    value = "true"
+  }
 }
 
-//resource "kubernetes_pod" "hydra_client_setup" {
-//  metadata {
-//    name = "hydra-client-setup"
-//    namespace = "auth"
-//  }
-//  spec {
-//    restart_policy                  = "Never"
-//    container {
-//      image = "oryd/hydra"
-//      name  = "hydra-client-setup"
-//      #command = ["ls", "-la"]
-//      command = ["clients", "create", "--endpoint", "http://hydra-admin:4445", "--id", "test-client", "--secret", "test-secret", "--response-types", "code,id_token", "--grant-types", "refresh_token,authorization_code", "--scope openid,offline", "--callbacks", "com.example-app:/oauth2/callback"]
-//      #command = "sleep 30 && clients create --endpoint http://hydra-admin:4445 --id test-client --secret test-secret --response-types code,id_token --grant-types refresh_token,authorization_code --scope openid,offline --callbacks com.example-app:/oauth2/callback"
-//    }
-//  }
-//  depends_on = [
-//    helm_release.hydra
-//  ]
-//}
-
+resource "kubernetes_job" "hydra_init" {
+  metadata {
+    name      = "hydra-init"
+    namespace = "auth"
+  }
+  spec {
+    template {
+      metadata {}
+      spec {
+        container {
+          name    = "hydra-init"
+          image   = "hengel2810/se09-hydra-init:1.4"
+          command = ["python", "./main.py"]
+          env {
+            name  = "HYDRA_HOST"
+            value = "http://hydra-admin"
+          }
+          env {
+            name  = "HYDRA_PORT"
+            value = 4445
+          }
+          env {
+            name  = "HYDRA_CLIENT_NAME"
+            value = "ios-app"
+          }
+        }
+        restart_policy = "Never"
+      }
+    }
+    backoff_limit = 4
+  }
+  depends_on = [
+    helm_release.hydra
+  ]
+}
