@@ -36,6 +36,14 @@ resource "helm_release" "hydra" {
     name = "hydra.autoMigrate"
     value = "true"
   }
+  set {
+    name = "hydra.config.ttl.access_token"
+    value = "2h"
+  }
+  set {
+    name = "hydra.config.ttl.refresh_token"
+    value = "-1"
+  }
 }
 
 resource "kubernetes_job" "hydra_init" {
@@ -49,7 +57,7 @@ resource "kubernetes_job" "hydra_init" {
       spec {
         container {
           name    = "hydra-init"
-          image   = "hengel2810/se09-hydra-init:1.4"
+          image   = "hengel2810/se09-hydra-init:1.5"
           command = ["python", "./main.py"]
           env {
             name  = "HYDRA_HOST"

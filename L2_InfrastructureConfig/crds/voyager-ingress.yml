@@ -36,4 +36,3 @@ spec:
       backend:
         serviceName: vernemq-cluster.mqtt
         servicePort: 8883
-
