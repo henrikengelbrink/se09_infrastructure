@@ -59,7 +59,7 @@ EOF
         service_account_name            = "device-service"
         automount_service_account_token = "true"
         container {
-          image = "hengel2810/se09-device-service:90f3c3bea84236f5b7e553f0f0611de146a7d289"
+          image = "hengel2810/se09-device-service:76fa5c93a1cfdd5ac1c2b3d9df78285ea4aa853c"
           name  = "device-service"
           env {
             name  = "POSTGRES_HOST"
