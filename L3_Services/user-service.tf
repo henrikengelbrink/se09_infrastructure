@@ -1,7 +1,7 @@
 resource "kubernetes_service" "user_service" {
   metadata {
     name      = "user-service"
-    namespace = "auth"
+    namespace = "default"
   }
   spec {
     selector = {
@@ -17,7 +17,7 @@ resource "kubernetes_service" "user_service" {
 resource "kubernetes_deployment" "user_deployment" {
   metadata {
     name      = "user-service"
-    namespace = "auth"
+    namespace = "default"
     labels = {
       app = "user-service"
     }
@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:b680869a8e120b8067874f9023fca56234008660"
+          image = "hengel2810/se09-user-service:f9dd15fe2adc456d49366b76916d95d4c3e60afa"
           name  = "user-service"
           env {
             name  = "PORT"

@@ -1,7 +1,7 @@
 resource "kubernetes_service_account" "device_service_account" {
   metadata {
     name      = "device-service"
-    namespace = "services"
+    namespace = "default"
     labels = {
       app = "device-service"
     }
@@ -11,7 +11,7 @@ resource "kubernetes_service_account" "device_service_account" {
 resource "kubernetes_service" "device_service" {
   metadata {
     name      = "device-service"
-    namespace = "services"
+    namespace = "default"
   }
   spec {
     selector = {
@@ -27,7 +27,7 @@ resource "kubernetes_service" "device_service" {
 resource "kubernetes_deployment" "device_deployment" {
   metadata {
     name      = "device-service"
-    namespace = "services"
+    namespace = "default"
     labels = {
       app = "device-service"
     }
@@ -59,7 +59,7 @@ EOF
         service_account_name            = "device-service"
         automount_service_account_token = "true"
         container {
-          image = "hengel2810/se09-device-service:76fa5c93a1cfdd5ac1c2b3d9df78285ea4aa853c"
+          image = "hengel2810/se09-device-service:86d33c82b2740d8ed312b4cb09bc5bd337e07772"
           name  = "device-service"
           env {
             name  = "POSTGRES_HOST"
@@ -74,12 +74,12 @@ EOF
             value = digitalocean_database_user.device_service.password
           }
           env {
-            name  = "VAULT_URL"
-            value = "http://vault.vault.svc.cluster.local:8200"
+            name  = "USER_SERVICE_URL"
+            value = "http://user-service:8585"
           }
           env {
-            name  = "USER_SERVICE_URL"
-            value = "http://user-service.auth.svc.cluster.local:8585"
+            name  = "CERT_SERVICE_URL"
+            value = "http://cert-service:7878"
           }
         }
       }
@@ -88,4 +88,7 @@ EOF
   depends_on = [
     kubernetes_service_account.device_service_account
   ]
+//  timeouts {
+//    create = "2m"
+//  }
 }

@@ -2,7 +2,7 @@ apiVersion: voyager.appscode.com/v1beta1
 kind: Certificate
 metadata:
   name: main-domain-cert
-  namespace: voyager
+  namespace: default
 spec:
   domains:
   - 'engelbrink.dev'

@@ -3,7 +3,7 @@ resource "helm_release" "oathkeeper" {
   repository = data.helm_repository.ory.metadata.0.name
   chart = "ory/oathkeeper"
   version = "v0.0.48"
-  namespace = "auth"
+  namespace = "default"
   timeout = 60
   values = [<<EOF
 image:

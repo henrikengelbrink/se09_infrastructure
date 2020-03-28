@@ -8,7 +8,8 @@ resource "helm_release" "voyager" {
   name       = "ingress-controller"
   chart      = "appscode/voyager"
   version    = "v12.0.0-rc.1"
-  namespace  = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+#  namespace  = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+  namespace = "default"
   set {
     name  = "ingressClass"
     value = "voyager-ingress"
@@ -22,7 +23,8 @@ resource "helm_release" "voyager" {
 resource "kubernetes_secret" "acme_secret_k8s" {
   metadata {
     name      = "acme-account"
-    namespace = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+#    namespace = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+    namespace = "default"
   }
   data = {
     ACME_EMAIL = "hengel2810@gmail.com"
@@ -34,7 +36,8 @@ resource "kubernetes_secret" "acme_secret_k8s" {
 resource "kubernetes_secret" "dns_digital_ocean_secret_k8s" {
   metadata {
     name      = "do-dns-secret"
-    namespace = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+#    namespace = kubernetes_namespace.k8s_namespace_voyager.metadata.0.name
+    namespace = "default"
   }
   data = {
     DO_AUTH_TOKEN = var.do_token
@@ -46,7 +49,7 @@ resource "kubernetes_secret" "dns_digital_ocean_secret_k8s" {
 
 resource "null_resource" "ingress" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=voyager apply -f ./crds/voyager-ingress.yml"
+    command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=default apply -f ./crds/voyager-ingress.yml"
   }
   depends_on = [
     kubernetes_secret.acme_secret_k8s,
@@ -69,7 +72,7 @@ resource "null_resource" "load_balancer_delay" {
 
 resource "null_resource" "voyager_cert" {
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=voyager apply -f ./crds/voyager-cert.yml"
+    command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=default apply -f ./crds/voyager-cert.yml"
   }
   depends_on = [
 #    digitalocean_domain.dns_cluster_domain,

@@ -1,7 +1,7 @@
 resource "kubernetes_service" "example-app-service" {
   metadata {
     name      = "example-app"
-    namespace = "services"
+    namespace = "default"
   }
   spec {
     selector = {
@@ -17,7 +17,7 @@ resource "kubernetes_service" "example-app-service" {
 resource "kubernetes_deployment" "example-app-deployment" {
   metadata {
     name      = "example-app"
-    namespace = "services"
+    namespace = "default"
     labels = {
       app = "example-app"
     }

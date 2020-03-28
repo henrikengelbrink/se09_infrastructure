@@ -1,7 +1,7 @@
 data "kubernetes_service" "load_balancer" {
   metadata {
     name      = "voyager-main-ingress"
-    namespace = "voyager"
+    namespace = "default"
   }
   depends_on = [
     null_resource.load_balancer_delay

@@ -7,7 +7,7 @@ resource "helm_release" "vernemq_cluster" {
   name       = "vernemq-cluster"
   repository = data.helm_repository.helm_repo_vernemq.metadata.0.name
   chart      = "vernemq/vernemq"
-  namespace  = "mqtt"
+  namespace  = "default"
   set {
     name  = "replicaCount"
     value = 1
@@ -39,19 +39,19 @@ additionalEnv:
     - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT
       value: "0.0.0.0:8883"
     - name: DOCKER_VERNEMQ_LISTENER__SSL__DEFAULT__USE_IDENTITY_AS_USERNAME
-      value: "off"
+      value: "on"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__hook
       value: "auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_register__endpoint
-      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_register"
+      value: "http://device-service:7979/vernemq/auth_on_register"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__hook
       value: "auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_subscribe__endpoint
-      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_subscribe"
+      value: "http://device-service:7979/vernemq/auth_on_subscribe"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__hook
       value: "auth_on_publish"
     - name: DOCKER_VERNEMQ_VMQ_WEBHOOKS__auth_on_publish__endpoint
-      value: "http://device-service.services.svc.cluster.local:7979/vernemq/auth_on_publish"
+      value: "http://device-service:7979/vernemq/auth_on_publish"
 statefulset:
   podAnnotations:
     vault.hashicorp.com/agent-inject: "true"
@@ -78,7 +78,7 @@ EOF
 resource "kubernetes_service" "mqtt_broker_service_http_debug" {
   metadata {
     name      = "vernemq-dashboard"
-    namespace = "mqtt"
+    namespace = "default"
   }
   spec {
     selector = {

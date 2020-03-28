@@ -1,35 +1,5 @@
 [
   {
-    "id": "hydra-health-alive",
-    "upstream": {
-      "strip_path": "/hydra",
-      "url": "http://hydra-public:4444"
-    },
-    "match": {
-      "url": "http://api.engelbrink.dev/hydra/health/alive",
-      "methods": ["GET"]
-    },
-    "authenticators": [{ "handler": "noop" }],
-    "authorizer": { "handler": "allow" },
-    "mutators": [{ "handler": "noop" }],
-    "errors": [{ "handler": "json" }]
-  },
-  {
-    "id": "hydra-health-ready",
-    "upstream": {
-      "strip_path": "/hydra",
-      "url": "http://hydra-public:4444"
-    },
-    "match": {
-      "url": "http://api.engelbrink.dev/hydra/health/ready",
-      "methods": ["GET"]
-    },
-    "authenticators": [{ "handler": "noop" }],
-    "authorizer": { "handler": "allow" },
-    "mutators": [{ "handler": "noop" }],
-    "errors": [{ "handler": "json" }]
-  },
-  {
     "id": "hydra-oauth2-auth",
     "upstream": {
       "strip_path": "/hydra",
@@ -108,7 +78,7 @@
     "id": "device-service-claim",
     "upstream": {
       "strip_path": "/device-service",
-      "url": "http://device-service.services.svc.cluster.local:7979"
+      "url": "http://device-service:7979"
     },
     "match": {
       "url": "http://api.engelbrink.dev/device-service/devices/<.*>",
@@ -139,6 +109,30 @@
       "methods": ["POST"]
     },
     "authenticators": [{ "handler": "noop" }],
+    "authorizer": { "handler": "allow" },
+    "mutators": [{ "handler": "noop" }],
+    "errors": [{ "handler": "json" }]
+  },
+  {
+    "id": "device-service-claim",
+    "upstream": {
+      "strip_path": "/device-service",
+      "url": "http://device-service:7979"
+    },
+    "match": {
+      "url": "http://api.engelbrink.dev/device-service/devices",
+      "methods": ["GET"]
+    },
+    "authenticators": [
+      {
+        "handler": "oauth2_introspection",
+        "config": {
+          "introspection_url": "http://hydra-admin:4445/oauth2/introspect",
+          "scope_strategy": "exact",
+          "required_scope": ["openid", "offline"]
+        }
+      }
+    ],
     "authorizer": { "handler": "allow" },
     "mutators": [{ "handler": "noop" }],
     "errors": [{ "handler": "json" }]

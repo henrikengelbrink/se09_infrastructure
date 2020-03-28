@@ -1,11 +1,11 @@
 resource "google_kms_key_ring" "key_ring" {
   project  = var.gcloud_project
-  name     = "kms-vault-key-13"
+  name     = "kms-vault-key-17"
   location = var.gcloud_region
 }
 
 resource "google_kms_crypto_key" "crypto_key" {
-  name            = "kms-vault-crypto-key-13"
+  name            = "kms-vault-crypto-key-17"
   key_ring        = google_kms_key_ring.key_ring.self_link
   rotation_period = "100000s"
 }
@@ -21,7 +21,7 @@ resource "google_kms_key_ring_iam_binding" "vault_iam_kms_binding" {
 resource "kubernetes_secret" "gcp_credentials" {
   metadata {
     name      = "kms-creds"
-    namespace = "vault"
+    namespace = "default"
   }
   data = {
     "credentials.json" = file("${path.cwd}/${var.gcp_account_file_path}")
@@ -31,7 +31,7 @@ resource "kubernetes_secret" "gcp_credentials" {
 resource "kubernetes_job" "vault_db_init" {
   metadata {
     name      = "vault-db-init"
-    namespace = "vault"
+    namespace = "default"
   }
   spec {
     template {
@@ -75,7 +75,7 @@ resource "kubernetes_job" "vault_db_init" {
 resource "helm_release" "vault" {
   name      = "vault"
   chart     = "${path.module}/vault"
-  namespace = "vault"
+  namespace = "default"
   depends_on = [
     kubernetes_secret.gcp_credentials,
     kubernetes_job.vault_db_init
@@ -115,7 +115,7 @@ EOF
 resource "kubernetes_service_account" "vault_injector_account" {
   metadata {
     name      = "vault-auth"
-    namespace = "vault"
+    namespace = "default"
     labels = {
       app = "vault-app"
     }
@@ -135,7 +135,7 @@ data "external" "vault_token_name" {
 resource "kubernetes_pod" "vault_init" {
   metadata {
     name      = "vault-init"
-    namespace = "vault"
+    namespace = "default"
   }
   spec {
     restart_policy                  = "Never"
@@ -143,7 +143,7 @@ resource "kubernetes_pod" "vault_init" {
     service_account_name            = "vault"
     container {
       name    = "vault-init"
-      image   = "hengel2810/se09-vault-init:0.63"
+      image   = "hengel2810/se09-vault-init:0.67"
       command = ["python", "./main.py"]
       env {
         name  = "VAULT_HOST"
@@ -178,4 +178,10 @@ resource "kubernetes_pod" "vault_init" {
   depends_on = [
     helm_release.vault
   ]
+}
+
+resource "null_resource" "vault" {
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ../L1_CloudInfrastructure/kubeconfig.yaml --namespace=default apply -f ./crds/vault.yml"
+  }
 }

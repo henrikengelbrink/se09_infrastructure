@@ -7,7 +7,7 @@ resource "helm_release" "hydra" {
   name = "hydra"
   repository = data.helm_repository.ory.metadata.0.name
   chart = "ory/hydra"
-  namespace = "auth"
+  namespace = "default"
   set {
     name = "hydra.config.secrets.system"
     value = "H874MrzXJQzesPNmSpVHnCCaYMZYjXtl"
@@ -49,7 +49,7 @@ resource "helm_release" "hydra" {
 resource "kubernetes_job" "hydra_init" {
   metadata {
     name      = "hydra-init"
-    namespace = "auth"
+    namespace = "default"
   }
   spec {
     template {
