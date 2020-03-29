@@ -49,7 +49,7 @@ resource "kubernetes_deployment" "cert_deployment" {
         service_account_name            = "cert-service"
         automount_service_account_token = "true"
         container {
-          image = "hengel2810/se09-cert-service:413193edc97d7b4dd8f5c7f9c5a7b22f3e06f02a"
+          image = "hengel2810/se09-cert-service:6985e81af0cea58835f832b6ec1b7fe40061db43"
           name  = "cert-service"
           env {
             name  = "POSTGRES_HOST"
@@ -66,6 +66,14 @@ resource "kubernetes_deployment" "cert_deployment" {
           env {
             name  = "VAULT_URL"
             value = "http://vault:8200"
+          }
+          env {
+            name  = "DEVICE_SERVICE_URL"
+            value = "http://device-service:7979"
+          }
+          env {
+            name  = "USER_SERVICE_URL"
+            value = "http://user-service:8585"
           }
         }
       }

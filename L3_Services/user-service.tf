@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:f9dd15fe2adc456d49366b76916d95d4c3e60afa"
+          image = "hengel2810/se09-user-service:0a2d9cec3114bb7dbd395f2c1d7ed53d1c2c5629"
           name  = "user-service"
           env {
             name  = "PORT"
@@ -62,6 +62,10 @@ resource "kubernetes_deployment" "user_deployment" {
           env {
             name = "EXTERNAL_HOSTNAME"
             value = "https://api.engelbrink.dev/user-service"
+          }
+          env {
+            name = "CERT_SERVICE_URL"
+            value = "http://cert-service:7878"
           }
         }
       }
