@@ -13,8 +13,8 @@ image:
 oathkeeper:
   config:
     log:
-      level: debug
-      format: text
+      level: info
+      format: json
     access_rules:
       repositories:
         - inline://${filebase64("${path.module}/oathkeeper-rules.json")}

@@ -18,6 +18,10 @@ resource "helm_release" "voyager" {
     name  = "cloudProvider"
     value = "digitalocean"
   }
+  set {
+    name  = "tlsMinVersion"
+    value = "VersionTLS12"
+  }
 }
 
 resource "kubernetes_secret" "acme_secret_k8s" {

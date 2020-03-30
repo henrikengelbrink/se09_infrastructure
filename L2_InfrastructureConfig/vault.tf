@@ -108,6 +108,8 @@ server:
         key_ring    = "${google_kms_key_ring.key_ring.name}"
         crypto_key  = "${google_kms_crypto_key.crypto_key.name}"
       }
+      log_level = "info"
+      log_format = "json"
 EOF
   ]
 }

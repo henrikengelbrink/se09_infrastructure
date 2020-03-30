@@ -13,6 +13,14 @@ resource "helm_release" "hydra" {
     value = "H874MrzXJQzesPNmSpVHnCCaYMZYjXtl"
   }
   set {
+    name = "hydra.config.log.level"
+    value = "info"
+  }
+  set {
+    name = "hydra.config.log.format"
+    value = "json"
+  }
+  set {
     name = "hydra.config.dsn"
     value = "postgres://${digitalocean_database_user.hydra.name}:${digitalocean_database_user.hydra.password}@${data.digitalocean_database_cluster.postgres.host}:${data.digitalocean_database_cluster.postgres.port}/${postgresql_database.user_service.name}?sslmode=require"
   }
