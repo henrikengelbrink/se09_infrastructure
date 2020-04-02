@@ -1,13 +1,3 @@
-data "kubernetes_service" "load_balancer" {
-  metadata {
-    name      = "ambassador"
-    namespace = "default"
-  }
-  depends_on = [
-    null_resource.load_balancer_delay
-  ]
-}
-
 //resource "digitalocean_domain" "dns_cluster_domain" {
 //  name       = var.cluster_domain
 //  ip_address = data.kubernetes_service.load_balancer.load_balancer_ingress.0.ip

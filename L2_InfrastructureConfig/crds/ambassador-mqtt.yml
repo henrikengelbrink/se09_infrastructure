@@ -15,6 +15,9 @@ apiVersion: getambassador.io/v2
 kind:  TCPMapping
 metadata:
   name:  mqtt-mapping
+  namespace: default
 spec:
+  tls: true
+  host: mqtt.engelbrink.dev
   port: 8883
   service: vernemq-cluster:8883

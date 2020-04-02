@@ -49,7 +49,7 @@ resource "kubernetes_deployment" "cert_deployment" {
         service_account_name            = "cert-service"
         automount_service_account_token = "true"
         container {
-          image = "hengel2810/se09-cert-service:760f0e0082e5fa2722706b7efdf42631ba541513"
+          image = "hengel2810/se09-cert-service:28b5667d2783613c032823cc56e5611dad87b530"
           name  = "cert-service"
           env {
             name  = "POSTGRES_HOST"

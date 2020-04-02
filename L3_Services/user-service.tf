@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "user_deployment" {
       }
       spec {
         container {
-          image = "hengel2810/se09-user-service:fcefb275234ce323c59b59fce6a856881a168dd4"
+          image = "hengel2810/se09-user-service:e0e510e222a977c7308c55c88244d766b7db0ad2"
           name  = "user-service"
           env {
             name  = "PORT"
