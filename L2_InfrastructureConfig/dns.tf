@@ -1,6 +1,6 @@
 data "kubernetes_service" "load_balancer" {
   metadata {
-    name      = "voyager-main-ingress"
+    name      = "ambassador"
     namespace = "default"
   }
   depends_on = [

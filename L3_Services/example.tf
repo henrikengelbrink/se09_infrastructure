@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "example-app-deployment" {
     }
   }
   spec {
-    replicas = 2
+    replicas = 1
     selector {
       match_labels = {
         app = "example-app"

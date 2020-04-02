@@ -1,0 +1,41 @@
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: example-engelbrink-dev-host
+  namespace: default
+spec:
+  hostname: example.engelbrink.dev
+  acmeProvider:
+    authority: 'https://acme-v02.api.letsencrypt.org/directory'
+    email: hengel2810@gmail.com
+  tlsSecret:
+    name: example-engelbrink-dev-tls
+  requestPolicy:
+    insecure:
+      action: Reject
+---
+apiVersion: getambassador.io/v2
+kind: TLSContext
+metadata:
+  name: example-engelbrink-dev-host-context
+spec:
+  hosts:
+  - example.engelbrink.dev
+  secret: example-engelbrink-dev-tls
+  min_tls_version: v1.2
+  cipher_suites:
+    - "[TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384]"
+    - "[TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256]"
+    - "[TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256]"
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  example-mapping
+  namespace: default
+spec:
+  prefix: /
+  host: example.engelbrink.dev
+  service: example-app:80
+  add_response_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
