@@ -5,11 +5,6 @@ metadata:
   namespace: default
 spec:
   hostname: mqtt.engelbrink.dev
-  acmeProvider:
-    authority: none
-  requestPolicy:
-    insecure:
-      action: Route
 ---
 apiVersion: getambassador.io/v2
 kind:  TCPMapping
@@ -17,7 +12,14 @@ metadata:
   name:  mqtt-mapping
   namespace: default
 spec:
-  tls: true
-  host: mqtt.engelbrink.dev
+  port: 1883
+  service: vernemq-cluster:1883
+---
+apiVersion: getambassador.io/v2
+kind:  TCPMapping
+metadata:
+  name:  mqtt-mapping-tls
+  namespace: default
+spec:
   port: 8883
   service: vernemq-cluster:8883

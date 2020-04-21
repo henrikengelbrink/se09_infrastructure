@@ -8,32 +8,13 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.digitalocean_kubernetes_cluster.k8s_cluster.kube_config.0.cluster_ca_certificate)
 }
 
-//resource "kubernetes_namespace" "k8s_namespace_voyager" {
-//  metadata {
-//    name = "voyager"
-//  }
-//}
-//
-//resource "kubernetes_namespace" "k8s_namespace_mqtt" {
-//  metadata {
-//    name = "mqtt"
-//  }
-//}
-//
-//resource "kubernetes_namespace" "k8s_namespace_services" {
-//  metadata {
-//    name = "services"
-//  }
-//}
-//
-//resource "kubernetes_namespace" "k8s_namespace_vault" {
-//  metadata {
-//    name = "vault"
-//  }
-//}
-//
-//resource "kubernetes_namespace" "k8s_namespace_auth" {
-//  metadata {
-//    name = "auth"
-//  }
-//}
+resource "kubernetes_network_policy" "default_block_all" {
+  metadata {
+    name      = "default-block-network-policy"
+    namespace = "default"
+  }
+  spec {
+    pod_selector {}
+    policy_types = ["Ingress"]
+  }
+}

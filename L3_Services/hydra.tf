@@ -58,6 +58,9 @@ resource "kubernetes_job" "hydra_init" {
   metadata {
     name      = "hydra-init"
     namespace = "default"
+    labels = {
+      app = "hydra-init"
+    }
   }
   spec {
     template {

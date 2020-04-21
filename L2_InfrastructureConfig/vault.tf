@@ -91,6 +91,8 @@ server:
     GOOGLE_REGION: ${var.gcloud_region}
     GOOGLE_PROJECT:  ${var.gcloud_project}
     GOOGLE_APPLICATION_CREDENTIALS: /vault/userconfig/kms-creds/credentials.json
+  extraLabels: |
+    "app": "vault"
   standalone:
     config: |
       ui = true
