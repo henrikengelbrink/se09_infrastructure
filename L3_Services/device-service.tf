@@ -75,11 +75,11 @@ EOF
           }
           env {
             name  = "USER_SERVICE_URL"
-            value = "http://user-service:8585"
+            value = "https://user-service:8585"
           }
           env {
             name  = "CERT_SERVICE_URL"
-            value = "http://cert-service:7878"
+            value = "https://cert-service:7878"
           }
         }
       }

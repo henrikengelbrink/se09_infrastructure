@@ -24,7 +24,7 @@ oathkeeper:
       oauth2_introspection:
         enabled: true
         config:
-          introspection_url: http://hydra-admin:4445/oauth2/introspect
+          introspection_url: https://hydra-admin:4445/oauth2/introspect
           scope_strategy: exact
           required_scope:
             - openid
@@ -39,7 +39,7 @@ oathkeeper:
         enabled: true
         config:
           api:
-            url: http://user-service:8585/auth/hydrator
+            url: https://user-service:8585/auth/hydrator
             retry:
               give_up_after: 6s
               max_delay: 2s

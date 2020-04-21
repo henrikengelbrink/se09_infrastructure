@@ -65,15 +65,15 @@ resource "kubernetes_deployment" "cert_deployment" {
           }
           env {
             name  = "VAULT_URL"
-            value = "http://vault:8200"
+            value = "https://vault:8200"
           }
           env {
             name  = "DEVICE_SERVICE_URL"
-            value = "http://device-service:7979"
+            value = "https://device-service:7979"
           }
           env {
             name  = "USER_SERVICE_URL"
-            value = "http://user-service:8585"
+            value = "https://user-service:8585"
           }
         }
       }

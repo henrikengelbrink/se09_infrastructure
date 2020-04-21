@@ -3,7 +3,7 @@
     "id": "hydra-oauth2-auth",
     "upstream": {
       "strip_path": "/hydra",
-      "url": "http://hydra-public:4444"
+      "url": "https://hydra-public:4444"
     },
     "match": {
       "url": "http://api.engelbrink.dev/hydra/oauth2/auth",
@@ -18,7 +18,7 @@
     "id": "hydra-oauth2-token",
     "upstream": {
       "strip_path": "/hydra",
-      "url": "http://hydra-public:4444"
+      "url": "https://hydra-public:4444"
     },
     "match": {
       "url": "http://api.engelbrink.dev/hydra/oauth2/token",
@@ -33,7 +33,7 @@
     "id": "user-auth-login",
     "upstream": {
       "strip_path": "/user-service",
-      "url": "http://user-service:8585"
+      "url": "https://user-service:8585"
     },
     "match": {
       "url": "http://api.engelbrink.dev/user-service/auth/login",
@@ -48,7 +48,7 @@
     "id": "user-auth-register",
     "upstream": {
       "strip_path": "/user-service",
-      "url": "http://user-service:8585"
+      "url": "https://user-service:8585"
     },
     "match": {
       "url": "http://api.engelbrink.dev/user-service/auth/register",
@@ -63,7 +63,7 @@
     "id": "user-auth-consent",
     "upstream": {
       "strip_path": "/user-service",
-      "url": "http://user-service:8585"
+      "url": "https://user-service:8585"
     },
     "match": {
       "url": "http://api.engelbrink.dev/user-service/auth/consent",
@@ -78,7 +78,7 @@
     "id": "device-service-claim",
     "upstream": {
       "strip_path": "/device-service",
-      "url": "http://device-service:7979"
+      "url": "https://device-service:7979"
     },
     "match": {
       "url": "http://api.engelbrink.dev/device-service/devices/<.*>",
@@ -88,7 +88,7 @@
       {
         "handler": "oauth2_introspection",
         "config": {
-          "introspection_url": "http://hydra-admin:4445/oauth2/introspect",
+          "introspection_url": "https://hydra-admin:4445/oauth2/introspect",
           "scope_strategy": "exact",
           "required_scope": ["openid", "offline"]
         }
@@ -102,7 +102,7 @@
     "id": "user-auth-hydrator",
     "upstream": {
       "strip_path": "/user-service",
-      "url": "http://user-service:8585"
+      "url": "https://user-service:8585"
     },
     "match": {
       "url": "http://api.engelbrink.dev/user-service/auth/hydrator",
@@ -117,7 +117,7 @@
     "id": "device-service-claim",
     "upstream": {
       "strip_path": "/device-service",
-      "url": "http://device-service:7979"
+      "url": "https://device-service:7979"
     },
     "match": {
       "url": "http://api.engelbrink.dev/device-service/devices",
@@ -127,7 +127,7 @@
       {
         "handler": "oauth2_introspection",
         "config": {
-          "introspection_url": "http://hydra-admin:4445/oauth2/introspect",
+          "introspection_url": "https://hydra-admin:4445/oauth2/introspect",
           "scope_strategy": "exact",
           "required_scope": ["openid", "offline"]
         }

@@ -1,0 +1,9 @@
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+metadata:
+  name: istio-control-plane
+  namespace: default
+spec:
+  profile: demo
+  gateways:
+    enabled: false

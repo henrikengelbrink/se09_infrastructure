@@ -72,7 +72,7 @@ resource "kubernetes_job" "hydra_init" {
           command = ["python", "./main.py"]
           env {
             name  = "HYDRA_HOST"
-            value = "http://hydra-admin"
+            value = "https://hydra-admin"
           }
           env {
             name  = "HYDRA_PORT"

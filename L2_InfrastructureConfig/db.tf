@@ -22,3 +22,18 @@ resource "postgresql_database" "vault" {
   owner             = digitalocean_database_user.vault.name
   allow_connections = true
 }
+
+resource "digitalocean_database_firewall" "postgres_firewall" {
+  cluster_id = data.digitalocean_database_cluster.postgres.id
+
+  rule {
+    type  = "ip_addr"
+    # Enter OpenVPN IP address
+    value = "0.0.0.0"
+  }
+
+  rule {
+    type  = "k8s"
+    value = data.digitalocean_kubernetes_cluster.k8s_cluster.id
+  }
+}
