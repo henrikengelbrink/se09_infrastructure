@@ -8,8 +8,8 @@ resource "kubernetes_service" "hibp_service" {
       app = "hibp-service"
     }
     port {
-      port        = 8282
-      target_port = 8282
+      port        = 8080
+      target_port = 8080
     }
   }
 }

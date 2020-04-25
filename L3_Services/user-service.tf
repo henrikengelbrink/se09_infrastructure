@@ -67,6 +67,10 @@ resource "kubernetes_deployment" "user_deployment" {
             name = "CERT_SERVICE_URL"
             value = "http://cert-service:7878"
           }
+          env {
+            name = "HIBP_SERVICE_URL"
+            value = "http://hibp-service:8080"
+          }
         }
       }
     }

@@ -204,3 +204,31 @@ resource "kubernetes_network_policy" "allow_cert_service" {
     }
   }
 }
+
+resource "kubernetes_network_policy" "allow_hibp_service" {
+  metadata {
+    name      = "allow-hibp-service"
+    namespace = "default"
+  }
+  spec {
+    pod_selector {
+      match_labels {
+        app      = "hibp-service"
+      }
+    }
+    policy_types = ["Ingress"]
+    ingress {
+      ports {
+        port     = "8080"
+        protocol = "TCP"
+      }
+      from {
+        pod_selector {
+          match_labels = {
+            app = "user-service"
+          }
+        }
+      }
+    }
+  }
+}
