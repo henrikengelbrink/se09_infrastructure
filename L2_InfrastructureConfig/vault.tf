@@ -1,11 +1,11 @@
 resource "google_kms_key_ring" "key_ring" {
   project  = var.gcloud_project
-  name     = "kms-vault-key-18"
+  name     = "kms-vault-key-19"
   location = var.gcloud_region
 }
 
 resource "google_kms_crypto_key" "crypto_key" {
-  name            = "kms-vault-crypto-key-18"
+  name            = "kms-vault-crypto-key-19"
   key_ring        = google_kms_key_ring.key_ring.self_link
   rotation_period = "100000s"
 }
