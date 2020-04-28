@@ -71,6 +71,10 @@ resource "kubernetes_deployment" "user_deployment" {
             name = "HIBP_SERVICE_URL"
             value = "http://hibp-service:8080"
           }
+          env {
+            name = "SENTRY_DSN"
+            value = var.sentry_dsn
+          }
         }
       }
     }
