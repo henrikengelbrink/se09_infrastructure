@@ -39,3 +39,18 @@ spec:
   service: oathkeeper-proxy:4455
   add_response_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  labels:
+    ambassador:
+      - request_label_group:
+          - remote_address
+---
+apiVersion: getambassador.io/v2
+kind: RateLimit
+metadata:
+  name: backend-rate-limit
+spec:
+  domain: ambassador
+  limits:
+    - pattern: [{remote_address: "*"}]
+      rate: 5
+      unit: minute
